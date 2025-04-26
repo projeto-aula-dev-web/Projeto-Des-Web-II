@@ -62,13 +62,12 @@ const livros = ref([
     </div>
       <input type="text" placeholder="Pesquisar livros..." class="barra-pesquisa" />
       <nav>
-        <a href="#">Início</a>
-        <a href="lancamentos">Lançamentos</a>
-        <a href="#">Mais vendidos</a>
-        <a href="#">Contato</a>
+        <a href="#">Temos</a>
+        <a href="">Equipe</a>
+        <a href="#">Envio</a>
+        <a href="#">Devoluções</a>
       </nav>
       <div class="icons">
-        <input type="text" placeholder="Pesquisar livros..." class="barra-pesquisa" />
 
         <span>❤️</span>
         <span>👤</span>
@@ -116,6 +115,32 @@ const livros = ref([
       </section>
     </div>
 
+<!--carrinho-->
+<div v-else class="carrinho">
+<h2>Carrinho</h2>
+<div class="secoes">
+  <div class="titulo">Titulo</div>
+  <div class="quantidades">Quantidades</div>
+  <div class="subtotal">Subtotal</div>
+</div>
+
+ <div>
+
+
+ </div>
+
+ <div class="botoes">
+  <a href="lancamentos">
+  <button>Voltar para loja</button>
+  </a>
+ <div class="cupons">
+  <label>
+    <input type="text" placeholder="Código do cupom">
+    <button>Inserir cupom</button>
+  </label>
+ </div>
+ </div>
+</div>
 
 <!--RODAPÉ-->
     <footer>
@@ -136,7 +161,7 @@ const livros = ref([
 
 <style scoped>
 * {
-  margin: 0;
+  margin: 0 ;
   padding: 0;
   box-sizing: border-box;
 }
@@ -153,18 +178,18 @@ html,
 }
 .inicio .logo{
     color: #333;
-    padding: 10px;
+    margin: 6px 0;
+    padding: 0 15px 0 0;
 }
 .inicio p{
     color:   #2d9246;
-    border-left:solid 1px #2d9246 ;
-    padding: 10px;
+    border-left: solid 1px #2d9246 ;
+   padding: 0 0 0 15px;
 }
 
 .barra-pesquisa {
   padding: 8px 12px;
   border: 1px solid #ccc;
-  border-radius: 20px;
   font-size: 14px;
   outline: none;
   width: 200px;
@@ -198,7 +223,7 @@ header {
 }
 
 .logo {
-  font-weight: bold;
+ 
   font-size: 26px;
   color: #2d9246;
 }
@@ -208,7 +233,7 @@ nav a {
   text-decoration: none;
   color: #333;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 nav a:hover {
@@ -307,11 +332,11 @@ nav a:hover {
 }
 .beneficios .item1{
     border-right:solid 1px #937DC2;
-    padding: 0vw 15vw 0 0;
+    padding: 0vw 8vw 0 0;
 }
 .beneficios .item2{
     border-right:solid 1px #937DC2;
-    padding: 0vw 15vw 0 0;
+    padding: 0 8vw 0 0;
 }
 /* Lançamentos */
 .lancamentos {
@@ -367,7 +392,61 @@ nav a:hover {
   margin: 5px 0;
 }
 
+/* carrinho*/
 
+div.carrinho h2{
+  font-size: 30px;
+  margin: 12vw 0 3vw 4vw;
+  color: #27AE60;
+  font-weight: bold;
+  }
+
+  .carrinho .secoes{
+   display: flex;
+   color: #333;
+   margin:0  3vw;
+   border-bottom: 3px solid #a7f3c7;
+   
+
+  }
+  .secoes .titulo {
+     margin: 1vw 40vw 1vw 3vw;
+     font-weight: bold;
+     font-size: 18px;
+  }
+  .secoes .quantidades {
+     margin: 1vw 24vw 1vw 3vw;
+     font-weight: bold;
+     font-size: 18px;
+  }
+  .secoes .subtotal {
+     margin: 1vw 5vw 1vw 3vw;
+     font-weight: bold;
+     font-size: 18px;
+  }
+  .botoes button{
+   padding: 10px 30px;
+   background-color: white;
+    border: 1px solid #b5b6b5;
+    border-radius: 3px;
+    margin: 2vw 0 2vw 4vw;
+
+  }
+  .botoes .cupons input{
+     padding: 10px 30px;
+     background-color: white;
+     border-radius: 3px;
+     border: 1px solid #626463;
+     margin: 2vw 0 2vw 4vw;
+  }
+  .botoes .cupons button{
+    color: white;
+     padding: 10px 30px;
+   background-color: #27AE60;
+    border: 1px solid #6bf1a3;
+    border-radius: 3px;
+    margin: 2vw 0 2vw 1vw;
+  }
 
 /* Rodapé */
 footer {
