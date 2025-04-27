@@ -62,8 +62,8 @@ const livros = ref([
     </div>
       <input type="text" placeholder="Pesquisar livros..." class="barra-pesquisa" />
       <nav>
-        <a href="#">Temos</a>
-        <a href="">Equipe</a>
+        <a href="lancamentos">Temos</a>
+        <a href="#">Equipe</a>
         <a href="#">Envio</a>
         <a href="#">Devoluções</a>
       </nav>
@@ -130,7 +130,7 @@ const livros = ref([
  </div>
 
  <div class="botoes">
-  <a href="lancamentos">
+  <a href="destaques">
   <button>Voltar para loja</button>
   </a>
  <div class="cupons">
