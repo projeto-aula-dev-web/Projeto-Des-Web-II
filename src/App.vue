@@ -1,68 +1,96 @@
 <script setup>
-import { ref } from 'vue';
-const mostrarCarrinho = ref(false)
-const carrinho = ref([])
+import { ref, computed } from 'vue';
+
+const mostrarCarrinho = ref(false);
+const carrinho = ref([]);
 const livros = ref([
-        {
-          titulo: "Chain of Iron: Volume 2",
-          autor: "Cassandra Clare",
-          preco: "23.24",
-          imagem: "public/chain_of_iron.png",
-        },
-        {
-          titulo: "Chain of Thorns",
-          autor: "Cassandra Clare",
-          preco: "23.24",
-          imagem: "public/chain_of_trones.png",
-        },
-        {
-          titulo: "City of Fallen Angels",
-          autor: "Cassandra Clare",
-          preco: "13.94",
-          imagem: "public/city_of_fallen.png",
-        },
-        {
-          titulo: "Clockwork Princess",
-          autor: "Cassandra Clare",
-          preco: "16.84",
-          imagem: "public/clockwork_princess.png",
-        },
-        {
-          titulo: "Harlem Shuffle",
-          autor: "Colson Whitehead",
-          preco: "26.92",
-          imagem: "public/harlem_shuffle.png",
-        },
-        {
-          titulo: "Two Old Women",
-          autor: "Velma Wallis",
-          preco: "13.95",
-          imagem: "public/two_women.png",
-        },
-        {
-          titulo: "Carrie Soto is Back",
-          autor: "Taylor Jenkins Reid",
-          preco: "26.04",
-          imagem: "public/taylor_jenkins.png",
-        },
-        {
-          titulo: "Book Lovers",
-          autor: "Emily Henry",
-          preco: "15.81",
-          imagem: "public/book_lovers.png",
-        },
-      ])
+  {
+    titulo: "Chain of Iron: Volume 2",
+    autor: "Cassandra Clare",
+    preco: "23.24",
+    imagem: "public/chain_of_iron.png",
+  },
+  {
+    titulo: "Chain of Thorns",
+    autor: "Cassandra Clare",
+    preco: "23.24",
+    imagem: "public/chain_of_trones.png",
+  },
+  {
+    titulo: "City of Fallen Angels",
+    autor: "Cassandra Clare",
+    preco: "13.94",
+    imagem: "public/city_of_fallen.png",
+  },
+  {
+    titulo: "Clockwork Princess",
+    autor: "Cassandra Clare",
+    preco: "16.84",
+    imagem: "public/clockwork_princess.png",
+  },
+  {
+    titulo: "Harlem Shuffle",
+    autor: "Colson Whitehead",
+    preco: "26.92",
+    imagem: "public/harlem_shuffle.png",
+  },
+  {
+    titulo: "Two Old Women",
+    autor: "Velma Wallis",
+    preco: "13.95",
+    imagem: "public/two_women.png",
+  },
+  {
+    titulo: "Carrie Soto is Back",
+    autor: "Taylor Jenkins Reid",
+    preco: "26.04",
+    imagem: "public/taylor_jenkins.png",
+  },
+  {
+    titulo: "Book Lovers",
+    autor: "Emily Henry",
+    preco: "15.81",
+    imagem: "public/book_lovers.png",
+  },
+]);
+
+const adicionarAoCarrinho = (livro) => {
+  const itemExistente = carrinho.value.find(item => item.titulo === livro.titulo);
+  if (itemExistente) {
+    itemExistente.quantidade++;
+  } else {
+    carrinho.value.push({
+      ...livro,
+      quantidade: 1
+    });
+  }
+};
+
+const removerDoCarrinho = (index) => {
+  carrinho.value.splice(index, 1);
+};
+
+const totalCarrinho = computed(() => {
+  return carrinho.value.reduce((total, item) => {
+    return total + item.quantidade * parseFloat(item.preco);
+  }, 0);
+});
+const quantidadeTotalCarrinho = computed(() => {
+  return carrinho.value.reduce((total, item) => total + item.quantidade, 0);
+});
+
 </script>
+
 
 <template>
   <header>
     <div class="inicio">
-      <div class="logo">IFooks</div>
+      <div class="logo"><a href="App.vue">IFooks</a></div>
       <p>Apreço a<br>leitura</p>
     </div>
       <input type="text" placeholder="Pesquisar livros..." class="barra-pesquisa" />
       <nav>
-        <a href="lancamentos">Temos</a>
+        <a href="#">Termos</a>
         <a href="#">Equipe</a>
         <a href="#">Envio</a>
         <a href="#">Devoluções</a>
@@ -71,7 +99,11 @@ const livros = ref([
 
         <span>❤️</span>
         <span>👤</span>
-        <span @click="mostrarCarrinho = !mostrarCarrinho">🛒</span>
+        <span class="icone-carrinho" @click="mostrarCarrinho = !mostrarCarrinho">
+  🛒
+  <span v-if="quantidadeTotalCarrinho > 0" class="badge">{{ quantidadeTotalCarrinho }}</span>
+</span>
+
       </div>
     </header>
 
@@ -117,29 +149,38 @@ const livros = ref([
 
 <!--carrinho-->
 <div v-else class="carrinho">
-<h2>Carrinho</h2>
-<div class="secoes">
-  <div class="titulo">Titulo</div>
-  <div class="quantidades">Quantidades</div>
-  <div class="subtotal">Subtotal</div>
+  <h2>Carrinho</h2>
+  <div class="secoes">
+    <div class="titulo">Título</div>
+    <div class="quantidades">Quantidade</div>
+    <div class="subtotal">Subtotal</div>
+  </div>
+
+  <div v-for="(item, index) in carrinho" :key="index" class="item-carrinho">
+    <div class="titulo">{{ item.titulo }}</div>
+    <div class="quantidades">
+  <button @click="item.quantidade > 1 ? item.quantidade-- : removerDoCarrinho(index)">-</button>
+  <span class="qtd">{{ item.quantidade }}</span>
+  <button @click="item.quantidade++">+</button>
 </div>
+    <div class="subtotal">R$ {{ (item.preco * item.quantidade).toFixed(2) }}</div>
+  </div>
 
- <div>
+  <div style="text-align:right; margin: 2vw 4vw 1vw 0; font-size: 18px; font-weight: bold;">
+    Total: R$ {{ totalCarrinho.toFixed(2) }}
+  </div>
 
-
- </div>
-
- <div class="botoes">
-  <a href="destaques">
-  <button>Voltar para loja</button>
-  </a>
- <div class="cupons">
-  <label>
-    <input type="text" placeholder="Código do cupom">
-    <button>Inserir cupom</button>
-  </label>
- </div>
- </div>
+  <div class="botoes">
+    <a href="destaques">
+      <button>Voltar para loja</button>
+    </a>
+    <div class="cupons">
+      <label>
+        <input type="text" placeholder="Código do cupom">
+        <button>Inserir cupom</button>
+      </label>
+    </div>
+  </div>
 </div>
 
 <!--RODAPÉ-->
@@ -160,7 +201,7 @@ const livros = ref([
 </template>
 
 <style scoped>
-* {
+/* * {
   margin: 0 ;
   padding: 0;
   box-sizing: border-box;
@@ -172,7 +213,7 @@ html,
   font-family: Arial, sans-serif;
   background-color: #fff;
   color: #333;
-}
+} */
 .inicio{
     display: flex;
 }
@@ -227,7 +268,10 @@ header {
   font-size: 26px;
   color: #2d9246;
 }
-
+div.inicio a{
+    text-decoration: none;
+    color: black;
+}
 nav a {
   margin: 0 20px;
   text-decoration: none;
@@ -447,6 +491,77 @@ div.carrinho h2{
     border-radius: 3px;
     margin: 2vw 0 2vw 1vw;
   }
+  .item-carrinho {
+  display: flex;
+  align-items: center;
+  margin: 1vw 3vw;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+}
+
+.item-carrinho .titulo {
+  width: 40%;
+  font-weight: 500;
+}
+
+.item-carrinho .quantidades {
+  width: 30%;
+  display: flex;
+  gap: 10px;
+  margin: 0 0 0 12vw;
+}
+
+.item-carrinho .subtotal {
+  width: 20%;
+  margin: 0 5.5vw 0 8.5vw;
+  text-align: right;
+}
+
+.quantidades {
+  width: 30%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.qtd {
+  width: 30px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 16px;
+  color: #333;
+}
+
+.item-carrinho button {
+  padding: 4px 10px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color:white;
+  color: black;
+  border:none;
+  transition: background 0.2s;
+}
+
+.item-carrinho button:hover {
+  background-color: #2d9246;
+}
+.icone-carrinho {
+  position: relative;
+  display: inline-block;
+}
+
+.badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: #2d9246;
+  color: white;
+  font-size: 0.5px;
+  padding: 0.5px 0.5px;
+  border-radius: 100%;
+}
+
 
 /* Rodapé */
 footer {
