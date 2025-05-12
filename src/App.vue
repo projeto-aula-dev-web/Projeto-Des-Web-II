@@ -8,49 +8,49 @@ const livros = ref([
     titulo: "Chain of Iron: Volume 2",
     autor: "Cassandra Clare",
     preco: "23.24",
-    imagem: "public/chain_of_iron.png",
+    imagem: "/chain_of_iron.png",
   },
   {
     titulo: "Chain of Thorns",
     autor: "Cassandra Clare",
     preco: "23.24",
-    imagem: "public/chain_of_trones.png",
+    imagem: "/chain_of_trones.png",
   },
   {
     titulo: "City of Fallen Angels",
     autor: "Cassandra Clare",
     preco: "13.94",
-    imagem: "public/city_of_fallen.png",
+    imagem: "/city_of_fallen.png",
   },
   {
     titulo: "Clockwork Princess",
     autor: "Cassandra Clare",
     preco: "16.84",
-    imagem: "public/clockwork_princess.png",
+    imagem: "/clockwork_princess.png",
   },
   {
     titulo: "Harlem Shuffle",
     autor: "Colson Whitehead",
     preco: "26.92",
-    imagem: "public/harlem_shuffle.png",
+    imagem: "/harlem_shuffle.png",
   },
   {
     titulo: "Two Old Women",
     autor: "Velma Wallis",
     preco: "13.95",
-    imagem: "public/two_women.png",
+    imagem: "/two_women.png",
   },
   {
     titulo: "Carrie Soto is Back",
     autor: "Taylor Jenkins Reid",
     preco: "26.04",
-    imagem: "public/taylor_jenkins.png",
+    imagem: "/taylor_jenkins.png",
   },
   {
     titulo: "Book Lovers",
     autor: "Emily Henry",
     preco: "15.81",
-    imagem: "public/book_lovers.png",
+    imagem: "/book_lovers.png",
   },
 ]);
 
@@ -108,7 +108,7 @@ const quantidadeTotalCarrinho = computed(() => {
     </header>
 
     <div v-if="!mostrarCarrinho">
-     
+
       <section class="destaque">
         <div class="texto">
           <button class="botao-novo">Novo Autor</button>
@@ -126,13 +126,13 @@ const quantidadeTotalCarrinho = computed(() => {
         </div>
       </section>
 
-  
+
       <section class="beneficios">
         <div class="item1">🚚 Frete grátis para SC</div>
         <div class="item2">⭐ Livros recomendados</div>
         <div class="item3">🏆 Mais vendidos</div>
       </section>
-          
+
            <section class="lancamentos">
         <h2>Lançamentos</h2>
         <div class="grid-livros">
@@ -147,9 +147,13 @@ const quantidadeTotalCarrinho = computed(() => {
       </section>
     </div>
 
-<!--carrinho-->
+<!-- carrinho -->
 <div v-else class="carrinho">
   <h2>Carrinho</h2>
+  <div class="titulo-compra">
+    <h3>TABELA DA COMPRA</h3>
+  </div>
+
   <div class="secoes">
     <div class="titulo">Título</div>
     <div class="quantidades">Quantidade</div>
@@ -157,47 +161,71 @@ const quantidadeTotalCarrinho = computed(() => {
   </div>
 
   <div v-for="(item, index) in carrinho" :key="index" class="item-carrinho">
-    <div class="titulo">{{ item.titulo }}</div>
+    <img :src="item.imagem" :alt="item.titulo" class="imagem-carrinho" />
+    <div class="titulo">{{ item.titulo }}<br><span>{{ item.autor }}</span></div>
     <div class="quantidades">
-  <button @click="item.quantidade > 1 ? item.quantidade-- : removerDoCarrinho(index)">-</button>
-  <span class="qtd">{{ item.quantidade }}</span>
-  <button @click="item.quantidade++">+</button>
-</div>
+      <button @click="item.quantidade > 1 ? item.quantidade-- : removerDoCarrinho(index)">-</button>
+      <span class="qtd">{{ item.quantidade }}</span>
+      <button @click="item.quantidade++">+</button>
+    </div>
     <div class="subtotal">R$ {{ (item.preco * item.quantidade).toFixed(2) }}</div>
-  </div>
-
-  <div style="text-align:right; margin: 2vw 4vw 1vw 0; font-size: 18px; font-weight: bold;">
-    Total: R$ {{ totalCarrinho.toFixed(2) }}
   </div>
 
   <div class="botoes">
     <a href="destaques">
       <button>Voltar para loja</button>
     </a>
-    <div class="cupons">
-      <label>
-        <input type="text" placeholder="Código do cupom">
-        <button>Inserir cupom</button>
-      </label>
+    <div class="bloco-pagamento">
+      <div class="cupons">
+        <label>
+          <input type="text" placeholder="Código do cupom" />
+          <button>Inserir cupom</button>
+        </label>
+      </div>
+
+      <div class="resumo-compra">
+        <h2>Total da Compra</h2>
+        <div class="linha">
+          <span>Produtos:</span>
+          <span>R$ {{ totalCarrinho.toFixed(2) }}</span>
+        </div>
+        <hr />
+        <div class="linha">
+          <span>Frete:</span>
+          <span>Grátis</span>
+        </div>
+        <hr />
+        <div class="linha total">
+          <span>Total:</span>
+          <span>R$ {{ totalCarrinho.toFixed(2) }}</span>
+        </div>
+        <div class="botao_pag"><button class="botao-pagamento">Ir para o pagamento</button></div>
+      </div>
     </div>
+
   </div>
 </div>
+<!-- Fim do carrinho -->
+
 
 <!--RODAPÉ-->
-    <footer>
-      <div class="rodape-superior">
-        <div class="logo">IFbooks</div>
-        <div class="contato">
-          <p>📞 +55 47 40045263</p>
-          <p>🕓 8h às 23h - Seg a Sex</p>
-          <p>📧 contato@ifbooks.com</p>
-          <img src="/public/cartoes.png" alt="">
-        </div>
-      </div>
-      <div class="rodape-inferior">
-        <p>© Alguns direitos reservados. IFbooks 2025. </p>
-      </div>
-    </footer>
+<footer>
+  <div class="rodape-superior">
+    <div class="logo">IFbooks</div>
+    <div class="contato">
+      <p>📞 +55 47 40045263</p>
+      <p>🕓 8h às 23h - Seg a Sex</p>
+      <p>📧 contato@ifbooks.com</p>
+      <img src="/public/cartoes.png" alt="">
+    </div>
+  </div>
+  <div class="rodape-inferior">
+    <p>© Alguns direitos reservados. IFbooks 2025. </p>
+  </div>
+</footer>
+<!-- Fim do rodapé -->
+
+
 </template>
 
 <style scoped>
@@ -264,7 +292,7 @@ header {
 }
 
 .logo {
- 
+
   font-size: 26px;
   color: #2d9246;
 }
@@ -434,7 +462,9 @@ nav a:hover {
 .preco {
   font-weight: bold;
   margin: 5px 0;
+  color: black;
 }
+
 
 /* carrinho*/
 
@@ -450,7 +480,7 @@ div.carrinho h2{
    color: #333;
    margin:0  3vw;
    border-bottom: 3px solid #a7f3c7;
-   
+
 
   }
   .secoes .titulo {
@@ -515,6 +545,7 @@ div.carrinho h2{
   width: 20%;
   margin: 0 5.5vw 0 8.5vw;
   text-align: right;
+  color: black;
 }
 
 .quantidades {
@@ -531,6 +562,14 @@ div.carrinho h2{
   font-weight: bold;
   font-size: 16px;
   color: #333;
+}
+
+.total-preco {
+  color: black;
+  text-align: right;
+  margin: 2vw 4vw 1vw 0;
+  font-size: 18px;
+  font-weight: bold;
 }
 
 .item-carrinho button {
@@ -562,7 +601,106 @@ div.carrinho h2{
   border-radius: 100%;
 }
 
+.item-carrinho .titulo {
+  color: black;
+}
+.imagem-carrinho {
+  width: 150px;
+}
+.bloco-pagamento {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin: 2vw 4vw;
+  gap: 3vw;
+}
 
+.cupons {
+  flex: 1;
+}
+
+.cupons label {
+  display: flex;
+  gap: 10px;
+}
+
+.cupons input {
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  flex: 1;
+}
+
+.cupons button {
+  padding: 10px 20px;
+  background-color: #2d9246;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.cupons button:hover {
+  background-color: #267a3a;
+}
+
+.resumo-compra {
+  flex: 1;
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #f7f7f7;
+}
+
+.resumo-compra .linha {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.resumo-compra .total {
+  font-weight: bold;
+  font-size: 18px;
+}
+.resumo-compra .linha span {
+  color: black;
+}
+
+.resumo-compra .total span {
+  color: black;
+}
+.botao_pag p {
+  background-color: #27AE60;
+}
+.botao-pagamento{
+  background-color: #27AE60;
+  color: black;
+  padding: 10px 30px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+}
+.resumo-compra {
+  flex: 1;
+  border: 1px solid #000000;
+  padding: 8px 13px; /* Reduzir o padding */
+  border-radius: 8px;
+  background-color: #ffffff;
+  font-size: 14px; /* Reduzir o tamanho da fonte */
+}
+
+.resumo-compra .linha {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px; /* Diminuir o espaçamento entre as linhas */
+}
+
+.resumo-compra .total {
+  font-weight: bold;
+  font-size: 16px; /* Reduzir o tamanho da fonte do total */
+}
 /* Rodapé */
 footer {
   background-color: #2d9246;
